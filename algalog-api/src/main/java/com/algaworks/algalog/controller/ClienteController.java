@@ -1,8 +1,8 @@
 package com.algaworks.algalog.controller;
 
-import com.algaworks.algalog.domain.model.cliente;
-import com.algaworks.algalog.domain.repository.clienteRepository;
-import com.algaworks.algalog.domain.service.catalogoClienteService;
+import com.algaworks.algalog.domain.model.Cliente;
+import com.algaworks.algalog.domain.repository.ClienteRepository;
+import com.algaworks.algalog.domain.service.CatalogoClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/clientes")
-public class clienteController {
+public class ClienteController {
 
 
-    private clienteRepository clienteRepository;
-    private catalogoClienteService catalogoClienteService;
+    private ClienteRepository clienteRepository;
+    private CatalogoClienteService catalogoClienteService;
 
     @GetMapping
-    public List<cliente> listar() {
+    public List<Cliente> listar() {
         return clienteRepository.findAll();
     }
 
     @GetMapping("/{clienteId}") //buscar cliente pelo ID
-    public ResponseEntity<cliente> buscar(@PathVariable Long clienteId) {
+    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
         return clienteRepository.findById(clienteId)
                 .map(cliente -> ResponseEntity.ok(cliente)) //outro modo = .map(ResponseEntity: ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -34,14 +34,14 @@ public class clienteController {
 
     @PostMapping  //Método para adicionar cliente ao banco
     @ResponseStatus(HttpStatus.CREATED)  //Método para retornar confirmação da criação do cliente
-    public cliente adicionar(@Valid @RequestBody cliente cliente) {
+    public Cliente adicionar(@Valid @RequestBody Cliente cliente) { //@Valid vai validar o cliente usando validatgroup Default
         //return clienteRepository.save(cliente); substituido pelo service
         return catalogoClienteService.salvar(cliente);
 
     }
 
     @PutMapping("/{clienteId}") //Método para atualizar dados do cliente
-    public ResponseEntity<cliente> atualizar(@PathVariable Long clienteId, @Valid @RequestBody cliente cliente) {
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @Valid @RequestBody Cliente cliente) {
         if (!clienteRepository.existsById(clienteId)) {
             return ResponseEntity.notFound().build(); //Não existe retorna 404
         }

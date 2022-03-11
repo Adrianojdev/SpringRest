@@ -1,15 +1,15 @@
 package com.algaworks.algalog.domain.repository;
 
-import com.algaworks.algalog.domain.model.cliente;
+import com.algaworks.algalog.domain.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface clienteRepository extends JpaRepository<cliente, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    Optional<cliente> findByEmail(String email);
+    Optional<Cliente> findByEmail(String email);
 
     }
 

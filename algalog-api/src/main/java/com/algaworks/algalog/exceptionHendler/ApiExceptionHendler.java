@@ -1,6 +1,6 @@
 package com.algaworks.algalog.exceptionHendler;
 
-import com.algaworks.algalog.domain.exception.negocioException;
+import com.algaworks.algalog.domain.exception.NegocioException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -21,25 +21,25 @@ import java.util.List;
 
 @AllArgsConstructor
 @ControllerAdvice
-public class apiExceptionHendler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHendler extends ResponseEntityExceptionHandler {
 
     private MessageSource messageSource;
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
            HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<problema.campo> campos = new ArrayList<>(); //criar lista de problemas para retornar especificamente
+        List<Problema.campo> campos = new ArrayList<>(); //criar lista de problemas para retornar especificamente
 
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             String nome = ((FieldError) error).getField(); //Tem que ser para Field error
             String mensagem = messageSource.getMessage(error, LocaleContextHolder.getLocale());
 
-            campos.add(new problema.campo(nome, mensagem));
+            campos.add(new Problema.campo(nome, mensagem));
 
         }
 
 
-        problema problema = new problema();
+        Problema problema = new Problema();
         problema.setStatus(status.value()); //retornar que tem problema com data e hora do erro
         problema.setDataHora(LocalDateTime.now());
         problema.setTitulo("Um ou mais campos inválidos, corriga e tente novamente");
@@ -48,11 +48,11 @@ public class apiExceptionHendler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problema, headers, status, request);
     }
 
-    @ExceptionHandler(negocioException.class)
-    public ResponseEntity<Object> handleNegocio(negocioException ex, WebRequest request) {
+    @ExceptionHandler(NegocioException.class)
+    public ResponseEntity<Object> handleNegocio(NegocioException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        problema problema = new problema();
+        Problema problema = new Problema();
         problema.setStatus(status.value()); //retornar que tem problema com data e hora do erro
         problema.setDataHora(LocalDateTime.now());
         problema.setTitulo(ex.getMessage());
