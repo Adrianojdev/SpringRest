@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DestinatarioModel {
+public class DestinatarioModelDTO {
 
     private String nome;
     private String logradouro;

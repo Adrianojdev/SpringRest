@@ -17,8 +17,8 @@ import javax.validation.groups.Default;
 @Entity
 public class Cliente {
 
-    //@NotNull(groups = Default.class) grupo de validação padrão
-    @NotNull(groups = ValidationGroups.ClienteId.class)
+//    @NotNull(groups = Default.class) grupo de validação padrão
+//    @NotNull(groups = ValidationGroups.ClienteId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
